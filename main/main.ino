@@ -74,7 +74,6 @@ void updateTime(){
   while(mill >= 1000){
     mill -= 1000;
     seconds += 1;
-    hasChanged=true;
   }
   while(seconds >= 60){
     seconds -= 60;
@@ -87,6 +86,7 @@ void updateTime(){
   while(hours >= 24){
     hours -= 24;
     days += 1;
+    hasChanged=true;
   }
   while(days >= 365){
     days -= 365;
