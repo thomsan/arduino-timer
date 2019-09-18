@@ -42,6 +42,7 @@ void setup() {
     ID = tft.readID();
     tft.begin(ID);
     Serial.begin(9600);
+    /*
     tft.setRotation(Orientation);
     tft.fillScreen(BLACK);
     show_tft();
@@ -57,6 +58,7 @@ void setup() {
     tft.fillRect(BOXSIZE * 5, 0, BOXSIZE, BOXSIZE, MAGENTA);
 
     tft.drawRect(0, 0, BOXSIZE, BOXSIZE, WHITE);
+    */
     currentcolor = RED;
     delay(1000);
 }
@@ -154,7 +156,7 @@ void readInput(){
           seconds += 1;
         }
 
-        if(xpos < displayXDim/4 && ypos > (displayYDim - displayYDim/4)){
+        if(xpos < (displayXDim/4) && ypos > (displayYDim - displayYDim/4)){
           // - button
           seconds -= 1;
         }
