@@ -146,74 +146,17 @@ void readInput(){
     // pressure of 0 means no pressing!
 
     if (tp.z > MINPRESSURE && tp.z < MAXPRESSURE) {
-        // most mcufriend have touch (with icons) that extends below the TFT
-        // screens without icons need to reserve a space for "erase"
-        // scale the ADC values from ts.getPoint() to screen values e.g. 0-239
-        //
-        // Calibration is true for PORTRAIT. tp.y is always long dimension 
-        // map to your current pixel orientation
-        switch (Orientation) {
-            case 0:
-                xpos = map(tp.x, TS_BOT, TS_TOP, 0, tft.width());
-                ypos = map(tp.y, TS_LEFT, TS_RT, 0, tft.height());
-                break;
-            case 1:
-                xpos = map(tp.y, TS_TOP, TS_BOT, 0, tft.width());
-                ypos = map(tp.x, TS_RT, TS_LEFT, 0, tft.height());
-                break;
-            case 2:
-                xpos = map(tp.x, TS_RT, TS_LEFT, 0, tft.width());
-                ypos = map(tp.y, TS_BOT, TS_TOP, 0, tft.height());
-                break;
-            case 3:
-                xpos = map(tp.y, TS_BOT, TS_TOP, 0, tft.width());
-                ypos = map(tp.y, TS_LEFT, TS_RT, 0, tft.height());
-                break;
+        xpos = map(tp.x, TS_BOT, TS_TOP, 0, tft.width());
+        ypos = map(tp.y, TS_LEFT, TS_RT, 0, tft.height());
+
+        if(xpos > (displayXDim - displayXDim/4) && ypos > (displayYDim - displayYDim/4)){
+          // + button
+          seconds += 1;
         }
 
-        // are we in top color box area ?
-        if (ypos < BOXSIZE) {               //draw white border on selected color box
-            oldcolor = currentcolor;
-
-            if (xpos < BOXSIZE) {
-                currentcolor = RED;
-                tft.drawRect(0, 0, BOXSIZE, BOXSIZE, WHITE);
-            } else if (xpos < BOXSIZE * 2) {
-                currentcolor = YELLOW;
-                tft.drawRect(BOXSIZE, 0, BOXSIZE, BOXSIZE, WHITE);
-            } else if (xpos < BOXSIZE * 3) {
-                currentcolor = GREEN;
-                tft.drawRect(BOXSIZE * 2, 0, BOXSIZE, BOXSIZE, WHITE);
-            } else if (xpos < BOXSIZE * 4) {
-                currentcolor = CYAN;
-                tft.drawRect(BOXSIZE * 3, 0, BOXSIZE, BOXSIZE, WHITE);
-            } else if (xpos < BOXSIZE * 5) {
-                currentcolor = BLUE;
-                tft.drawRect(BOXSIZE * 4, 0, BOXSIZE, BOXSIZE, WHITE);
-            } else if (xpos < BOXSIZE * 6) {
-                currentcolor = MAGENTA;
-                tft.drawRect(BOXSIZE * 5, 0, BOXSIZE, BOXSIZE, WHITE);
-            }
-
-            if (oldcolor != currentcolor) { //rub out the previous white border
-                if (oldcolor == RED) tft.fillRect(0, 0, BOXSIZE, BOXSIZE, RED);
-                if (oldcolor == YELLOW) tft.fillRect(BOXSIZE, 0, BOXSIZE, BOXSIZE, YELLOW);
-                if (oldcolor == GREEN) tft.fillRect(BOXSIZE * 2, 0, BOXSIZE, BOXSIZE, GREEN);
-                if (oldcolor == CYAN) tft.fillRect(BOXSIZE * 3, 0, BOXSIZE, BOXSIZE, CYAN);
-                if (oldcolor == BLUE) tft.fillRect(BOXSIZE * 4, 0, BOXSIZE, BOXSIZE, BLUE);
-                if (oldcolor == MAGENTA) tft.fillRect(BOXSIZE * 5, 0, BOXSIZE, BOXSIZE, MAGENTA);
-            }
-        }
-        // are we in drawing area ?
-        if (((ypos - PENRADIUS) > BOXSIZE) && ((ypos + PENRADIUS) < tft.height())) {
-            tft.fillCircle(xpos, ypos, PENRADIUS, currentcolor);
-        }
-        // are we in erase area ?
-        // Plain Touch panels use bottom 10 pixels e.g. > h - 10
-        // Touch panels with icon area e.g. > h - 0
-        if (ypos > tft.height() - 10) {
-            // press the bottom of the screen to erase
-            tft.fillRect(0, BOXSIZE, tft.width(), tft.height() - BOXSIZE, BLACK);
+        if(xpos < displayXDim/4 && ypos > (displayYDim - displayYDim/4)){
+          // - button
+          seconds -= 1;
         }
     }
 }
@@ -222,7 +165,7 @@ void loop() {
   // put your main code here, to run repeatedly:
   updateTime();
   if(hasChanged){
-    //showCounter();
+    showCounter();
     hasChanged=false;
   }
   readInput();
