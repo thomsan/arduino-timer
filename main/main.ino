@@ -30,8 +30,8 @@ bool hasChanged = false;
 int displayXDim = 320;
 int displayYDim = 240;
 MCUFRIEND_kbv tft;
-const int XP=6,XM=A2,YP=A1,YM=7; //ID=0x9341
-const int TS_LEFT=907,TS_RT=136,TS_TOP=942,TS_BOT=139;
+const int XP=8,XM=A2,YP=A3,YM=9; //ID=0x9341
+const int TS_LEFT=74,TS_RT=883,TS_TOP=930,TS_BOT=135;
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 TSPoint tp;
 int16_t BOXSIZE;
