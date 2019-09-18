@@ -29,13 +29,13 @@ int displayXDim = 320;
 int displayYDim = 240;
 MCUFRIEND_kbv tft;
 const int XP=8,XM=A2,YP=A3,YM=9; //ID=0x9341
-const int TS_LEFT=74,TS_RT=883,TS_TOP=930,TS_BOT=135;
+const int TS_LEFT=75,TS_RT=889,TS_TOP=903,TS_BOT=97;
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 TSPoint tp;
 int16_t BOXSIZE;
 int16_t PENRADIUS = 1;
 uint16_t ID, oldcolor, currentcolor;
-uint8_t Orientation = 0;    //PORTRAIT
+uint8_t Orientation = 1;    //0: PORTRAIT, 1: LANDSCAPE
 
 void setup() {
   tft.reset();
@@ -138,7 +138,7 @@ void showCounter(void){
 }
 
 void readInput(){
-  uint16_t xpos, ypos;  //screen coordinates
+    uint16_t xpos, ypos;  //screen coordinates
     tp = ts.getPoint();   //tp.x, tp.y are ADC values
 
     // if sharing pins, you'll need to fix the directions of the touchscreen pins
@@ -148,17 +148,39 @@ void readInput(){
     // pressure of 0 means no pressing!
 
     if (tp.z > MINPRESSURE && tp.z < MAXPRESSURE) {
-        xpos = map(tp.x, TS_BOT, TS_TOP, 0, tft.width());
-        ypos = map(tp.y, TS_LEFT, TS_RT, 0, tft.height());
+        // most mcufriend have touch (with icons) that extends below the TFT
+        // screens without icons need to reserve a space for "erase"
+        // scale the ADC values from ts.getPoint() to screen values e.g. 0-239
+        //
+        // Calibration is true for PORTRAIT. tp.y is always long dimension 
+        // map to your current pixel orientation
+        switch (Orientation) {
+            case 0:
+                xpos = map(tp.x, TS_LEFT, TS_RT, 0, tft.width());
+                ypos = map(tp.y, TS_TOP, TS_BOT, 0, tft.height());
+                break;
+            case 1:
+                xpos = map(tp.y, TS_TOP, TS_BOT, 0, tft.width());
+                ypos = map(tp.x, TS_RT, TS_LEFT, 0, tft.height());
+                break;
+            case 2:
+                xpos = map(tp.x, TS_RT, TS_LEFT, 0, tft.width());
+                ypos = map(tp.y, TS_BOT, TS_TOP, 0, tft.height());
+                break;
+            case 3:
+                xpos = map(tp.y, TS_BOT, TS_TOP, 0, tft.width());
+                ypos = map(tp.y, TS_LEFT, TS_RT, 0, tft.height());
+                break;
+        }
 
         if(xpos > (displayXDim - displayXDim/4) && ypos > (displayYDim - displayYDim/4)){
           // + button
-          seconds += 1;
+          seconds = 0;
         }
 
         if(xpos < (displayXDim/4) && ypos > (displayYDim - displayYDim/4)){
           // - button
-          seconds -= 1;
+          seconds = 10;
         }
     }
 }
