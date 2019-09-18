@@ -34,7 +34,7 @@ TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 TSPoint tp;
 int16_t BOXSIZE;
 int16_t PENRADIUS = 1;
-uint16_t ID, oldcolor, currentcolor;
+uint16_t ID;
 uint8_t Orientation = 1;    //0: PORTRAIT, 1: LANDSCAPE
 
 void setup() {
@@ -44,24 +44,7 @@ void setup() {
     Serial.begin(9600);
     
     tft.setRotation(Orientation);
-    
-    /*
-    tft.fillScreen(BLACK);
-    show_tft();
 
-    BOXSIZE = tft.width() / 6;
-    tft.fillScreen(BLACK);
-
-    tft.fillRect(0, 0, BOXSIZE, BOXSIZE, RED);
-    tft.fillRect(BOXSIZE, 0, BOXSIZE, BOXSIZE, YELLOW);
-    tft.fillRect(BOXSIZE * 2, 0, BOXSIZE, BOXSIZE, GREEN);
-    tft.fillRect(BOXSIZE * 3, 0, BOXSIZE, BOXSIZE, CYAN);
-    tft.fillRect(BOXSIZE * 4, 0, BOXSIZE, BOXSIZE, BLUE);
-    tft.fillRect(BOXSIZE * 5, 0, BOXSIZE, BOXSIZE, MAGENTA);
-
-    tft.drawRect(0, 0, BOXSIZE, BOXSIZE, WHITE);
-    */
-    currentcolor = RED;
     showCounter();
     delay(1000);
 }
@@ -93,41 +76,6 @@ void updateTime(){
     days -= 365;
     years += 1;
   }
-}
-
-void show_tft(void)
-{
-    tft.setCursor(0, 0);
-    tft.setTextSize(1);
-    tft.print(F("ID=0x"));
-    tft.println(ID, HEX);
-    tft.println("Screen is " + String(tft.width()) + "x" + String(tft.height()));
-    tft.println("");
-    tft.setTextSize(2);
-    tft.println("WHATS UP");
-    tft.setTextSize(1);
-    tft.println("PORTRAIT Values:");
-    tft.println("LEFT = " + String(TS_LEFT) + " RT  = " + String(TS_RT));
-    tft.println("TOP  = " + String(TS_TOP)  + " BOT = " + String(TS_BOT));
-    tft.println("\nWiring is: ");
-    tft.println("YP=" + String(YP)  + " XM=" + String(XM));
-    tft.println("YM=" + String(YM)  + " XP=" + String(XP));
-    tft.setTextSize(2);
-    tft.setTextColor(RED);
-    tft.setCursor((tft.width() - 48) / 2, (tft.height() * 2) / 4);
-    tft.print("EXIT");
-    tft.setTextColor(YELLOW, BLACK);
-    tft.setCursor(0, (tft.height() * 6) / 8);
-    tft.print("Touch screen for loc");
-    while (1) {
-        tp = ts.getPoint();
-        pinMode(XM, OUTPUT);
-        pinMode(YP, OUTPUT);
-        if (tp.z < MINPRESSURE || tp.z > MAXPRESSURE) continue;
-        if (tp.x > 450 && tp.x < 570  && tp.y > 450 && tp.y < 570) break;
-        tft.setCursor(0, (tft.height() * 3) / 4);
-        tft.print("tp.x=" + String(tp.x) + " tp.y=" + String(tp.y) + "   ");
-    }
 }
 
 void showCounter(void){
