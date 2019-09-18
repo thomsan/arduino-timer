@@ -154,7 +154,7 @@ void readInput(){
         // map to your current pixel orientation
         switch (Orientation) {
             case 0:
-                xpos = map(tp.x, TS_TOP, TS_BOT, 0, tft.height());
+                xpos = map(tp.x, TS_BOT, TS_TOP, 0, tft.height());
                 ypos = map(tp.y, TS_LEFT, TS_RT, 0, tft.width());
                 break;
             case 1:
