@@ -13,6 +13,7 @@
 MCUFRIEND_kbv tft;
 uint32_t years, days, hours, minutes, seconds, mill;
 uint32_t last_millis, current_millis, dt;
+bool hasChanged = false;
 
 void setup() {
   // put your setup code here, to run once:
@@ -42,6 +43,7 @@ void updateTime(){
   while(seconds >= 60){
     seconds -= 60;
     minutes += 1;
+    hasChanged=true;
   }
   while(minutes >= 60){
     minutes -= 60;
@@ -70,6 +72,9 @@ void printCounter(){
 void loop() {
   // put your main code here, to run repeatedly:
   updateTime();
-  printCounter();
+  if(hasChanged){
+    printCounter();
+    hasChanged=false;
+  }
   delay(500);
 }
