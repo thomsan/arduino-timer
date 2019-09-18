@@ -178,11 +178,13 @@ void readInput(){
         if(xpos > (displayXDim - displayXDim/4) && ypos > (displayYDim - displayYDim/4)){
           // + button
           days += 1;
+          hasChanged = true;
         }
 
         if(xpos < (displayXDim/4) && ypos > (displayYDim - displayYDim/4)){
           // - button
           days += 1;
+          hasChanged = true;
         }
     }
 }
