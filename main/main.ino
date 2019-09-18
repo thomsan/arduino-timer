@@ -10,6 +10,8 @@
 #define WHITE   0xFFFF
 #define GREY    0x8410
 
+int displayWidth
+
 MCUFRIEND_kbv tft;
 uint32_t years, days, hours, minutes, seconds, mill;
 uint32_t last_millis, current_millis, dt;
@@ -39,11 +41,11 @@ void updateTime(){
   while(mill >= 1000){
     mill -= 1000;
     seconds += 1;
+    hasChanged=true;
   }
   while(seconds >= 60){
     seconds -= 60;
     minutes += 1;
-    hasChanged=true;
   }
   while(minutes >= 60){
     minutes -= 60;
