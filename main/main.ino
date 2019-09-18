@@ -42,8 +42,10 @@ void setup() {
     ID = tft.readID();
     tft.begin(ID);
     Serial.begin(9600);
-    /*
+    
     tft.setRotation(Orientation);
+    
+    /*
     tft.fillScreen(BLACK);
     show_tft();
 
@@ -128,13 +130,12 @@ void show_tft(void)
 }
 
 void showCounter(void){
-  tft.fillScreen(WHITE); // Bildschirm zurücksetzen
-  int16_t x1, y1;
+  tft.fillScreen(WHITE); // reset screen
   tft.setFont(&FreeSans12pt7b);
   tft.setCursor(10, 180); 
   tft.setTextColor(BLACK); 
   tft.setTextSize(8); 
-  tft.print(seconds); 
+  tft.print(days); 
 }
 
 void readInput(){
@@ -175,12 +176,12 @@ void readInput(){
 
         if(xpos > (displayXDim - displayXDim/4) && ypos > (displayYDim - displayYDim/4)){
           // + button
-          seconds = 0;
+          days += 1;
         }
 
         if(xpos < (displayXDim/4) && ypos > (displayYDim - displayYDim/4)){
           // - button
-          seconds = 10;
+          days += 1;
         }
     }
 }
