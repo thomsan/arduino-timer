@@ -62,6 +62,7 @@ void setup() {
     tft.drawRect(0, 0, BOXSIZE, BOXSIZE, WHITE);
     */
     currentcolor = RED;
+    showCounter();
     delay(1000);
 }
 
