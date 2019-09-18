@@ -19,8 +19,6 @@
 #define YELLOW  0xFFE0
 #define WHITE   0xFFFF
 
-
-
 // timer variables
 uint32_t years, days, hours, minutes, seconds, mill;
 uint32_t last_millis, current_millis, dt;
@@ -156,8 +154,8 @@ void readInput(){
         // map to your current pixel orientation
         switch (Orientation) {
             case 0:
-                xpos = map(tp.x, TS_LEFT, TS_RT, 0, tft.width());
-                ypos = map(tp.y, TS_TOP, TS_BOT, 0, tft.height());
+                xpos = map(tp.x, TS_TOP, TS_BOT, 0, tft.height());
+                ypos = map(tp.y, TS_LEFT, TS_RT, 0, tft.width());
                 break;
             case 1:
                 xpos = map(tp.y, TS_TOP, TS_BOT, 0, tft.width());
